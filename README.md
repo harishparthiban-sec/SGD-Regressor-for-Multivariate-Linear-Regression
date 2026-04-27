@@ -14,16 +14,37 @@ To write a program to predict the price of the house and number of occupants in 
 4. 
 
 ## Program:
-```
-/*
+
 Program to implement the multivariate linear regression model for predicting the price of the house and number of occupants in the house with SGD regressor.
 Developed by: 
 RegisterNumber:  
-*/
+```
+import pandas as pd
+from sklearn.linear_model import SGDRegressor
+from sklearn.preprocessing import StandardScaler
+data=pd.read_csv("house.csv")
+data.columns=data.columns.str.strip()
+x=data[['Size','Bedrooms']]
+y_price=data['Price']
+y_occ=data['Occupants']
+scaler=StandardScaler()
+x_scale=scaler.fit_transform(x)
+price_model=SGDRegressor(max_iter=1000,learning_rate='constant',eta0=0.01)
+occ_model=SGDRegressor(max_iter=1000,learning_rate='constant',eta0=0.01)
+price_model.fit(x_scale,y_price)
+occ_model.fit(x_scale,y_occ)
+size=int(input("Enter the size of the room: "))
+bed=int(input("Enter the number of bedrooms: "))
+x_new=scaler.transform([[size,bed]])
+price=price_model.predict(x_new)
+occ=occ_model.predict(x_new)
+print("Price: ",price[0])
+print("Occupants: ",int(occ[0]))
 ```
 
 ## Output:
-![multivariate linear regression model for predicting the price of the house and number of occupants in the house](sam.png)
+<img width="607" height="94" alt="image" src="https://github.com/user-attachments/assets/d7298458-38f4-4d70-b324-b71559bcd40c" />
+
 
 
 ## Result:
